@@ -2,22 +2,25 @@ package com.example.signup.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
-@Getter
-@Setter
-@Builder
+@Getter @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String userId;
+
+    @Column(name = "user_id")
+    private Integer memberId;
+
+    @Column(name = "login_id")
+    private String loginId;
+
+    @Column(name = "password")
     private String password;
-    private String password2;
+
+    @Column(name = "name")
     private String name;
 }
