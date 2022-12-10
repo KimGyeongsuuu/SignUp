@@ -8,11 +8,11 @@ import javax.persistence.*;
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Integer memberId;
 
     @Column(name = "login_id")
