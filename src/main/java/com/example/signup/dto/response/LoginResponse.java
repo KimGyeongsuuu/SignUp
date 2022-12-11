@@ -1,4 +1,4 @@
 package com.example.signup.dto.response;
 
-public class ResponseDto {
+public class LoginResponse {
 }
