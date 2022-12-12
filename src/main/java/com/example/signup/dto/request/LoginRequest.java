@@ -1,6 +1,7 @@
 package com.example.signup.dto.request;
 
 
+import com.example.signup.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class LoginRequest {
 
     @NotBlank
     private String password;
+
 }
