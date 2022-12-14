@@ -17,6 +17,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+
     @PostMapping("/signup")
     public String signup(@RequestBody @Validated SignUpRequest signUpRequest){
         memberService.signUp(signUpRequest);
@@ -25,10 +26,8 @@ public class MemberController {
 
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest){
-        log.info("userId = {},password = {}",loginRequest.getLoginId(),loginRequest.getPassword());
+        log.info("loginId = {} , password = {}",loginRequest.getLoginId(),loginRequest.getPassword());
         memberService.login(loginRequest);
         return "LoginSUCESS";
     }
-
-
 }
