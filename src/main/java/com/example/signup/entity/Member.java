@@ -23,4 +23,11 @@ public class Member {
 
     @Column(name = "name")
     private String name;
+
+    public void updateId(String loginId){
+        this.loginId = loginId;
+    }
+    public void updatePassword(String password){
+        this.password = password;
+    }
 }

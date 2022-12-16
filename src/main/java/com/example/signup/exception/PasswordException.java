@@ -3,7 +3,6 @@ package com.example.signup.exception;
 
 import lombok.Getter;
 
-
 @Getter
 public class PasswordException extends RuntimeException{
     private final Error error;

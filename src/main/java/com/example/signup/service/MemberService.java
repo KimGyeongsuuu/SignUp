@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -21,6 +24,12 @@ public class MemberService {
     //@Autowired
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+
+    @Transactional
+    public List<Member> memberList(){
+        return memberRepository.findAll();
+    }
 
     @Transactional
     public void signUp (SignUpRequest signUpRequest) {
@@ -43,10 +52,19 @@ public class MemberService {
         Member member = memberRepository.findByLoginId(loginRequest.getLoginId())
                 .orElseThrow(()->new MemberNotFoundException("존재하지 않은 Id 입니다."));
 
-        boolean matches = passwordEncoder.matches(loginRequest.getPassword(), member.getPassword());
+        boolean matches = loginRequest.getPassword().matches(member.getPassword());
 
         if (!matches){
             throw new PasswordException("비밀번호가 일치하지 않습니다.");
         }
+        log.info("로그인 되었습니다. 회원 id = {} , 비밀번호 = {}",loginRequest.getLoginId(),loginRequest.getPassword());
+    }
+
+    @Transactional
+    public void update(Integer memberId, SignUpRequest signUpRequest){
+        Optional<Member> updateMember = memberRepository.findByMemberId(memberId);
+        updateMember.get().updateId(signUpRequest.getLoginId());
+        updateMember.get().updatePassword(signUpRequest.getPassword());
+        memberRepository.save(updateMember.get());
     }
 }
