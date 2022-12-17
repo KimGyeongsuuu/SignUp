@@ -2,6 +2,7 @@ package com.example.signup.service;
 
 import com.example.signup.dto.request.LoginRequest;
 import com.example.signup.dto.request.SignUpRequest;
+import com.example.signup.dto.response.LoginResponse;
 import com.example.signup.entity.Member;
 import com.example.signup.exception.MemberExistException;
 import com.example.signup.exception.MemberNotFoundException;
@@ -9,7 +10,9 @@ import com.example.signup.exception.PasswordException;
 import com.example.signup.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +34,8 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    @Transactional
-    public void signUp (SignUpRequest signUpRequest) {
+    @Transactional  
+    public Member signUp (SignUpRequest signUpRequest) {
 
         boolean existMember = memberRepository.existsMemberByLoginId(signUpRequest.getLoginId());
 
@@ -57,6 +60,7 @@ public class MemberService {
         if (!matches){
             throw new PasswordException("비밀번호가 일치하지 않습니다.");
         }
+
         log.info("로그인 되었습니다. 회원 id = {} , 비밀번호 = {}",loginRequest.getLoginId(),loginRequest.getPassword());
     }
 

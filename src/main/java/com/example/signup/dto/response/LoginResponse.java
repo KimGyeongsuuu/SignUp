@@ -9,6 +9,6 @@ import lombok.Setter;
 @RequiredArgsConstructor(staticName = "of")
 public class LoginResponse<D> {
 
-    private final String loginId;
-    private final String password;
+    private String accessToken;
+    private String refreshToken;
 }

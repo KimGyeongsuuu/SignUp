@@ -6,7 +6,6 @@ import com.example.signup.dto.response.LoginResponse;
 import com.example.signup.dto.response.SignUpResponse;
 import com.example.signup.entity.Member;
 import com.example.signup.service.MemberService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -31,9 +30,8 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public LoginResponse<Object> login(@RequestBody LoginRequest loginRequest){
+    public void login(@RequestBody LoginRequest loginRequest){
         memberService.login(loginRequest);
-        return LoginResponse.of(loginRequest.getLoginId(),loginRequest.getPassword());
     }
 
     @PatchMapping("/update/{memberId}")
