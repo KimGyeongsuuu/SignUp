@@ -2,11 +2,16 @@ package com.example.signup.controller;
 
 import com.example.signup.dto.request.LoginRequest;
 import com.example.signup.dto.request.SignUpRequest;
+import com.example.signup.dto.response.LoginResponse;
+import com.example.signup.dto.response.SignUpResponse;
+import com.example.signup.entity.Member;
 import com.example.signup.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -19,15 +24,24 @@ public class MemberController {
 
 
     @PostMapping("/signup")
-    public String signup(@RequestBody @Validated SignUpRequest signUpRequest){
+    public SignUpResponse<Object> signup(@RequestBody @Validated SignUpRequest signUpRequest){
         memberService.signUp(signUpRequest);
-        return "SignupSUCCESS";
+        return SignUpResponse.of(signUpRequest.getLoginId(),signUpRequest.getPassword(),signUpRequest.getName());
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest){
-        log.info("loginId = {} , password = {}",loginRequest.getLoginId(),loginRequest.getPassword());
+    public void login(@RequestBody LoginRequest loginRequest){
         memberService.login(loginRequest);
-        return "LoginSUCESS";
     }
+
+    @PatchMapping("/update/{memberId}")
+    public void update(@PathVariable Integer memberId, @RequestBody SignUpRequest signUpRequest){
+        memberService.update(memberId,signUpRequest);
+    }
+
+    @GetMapping("/list")
+    public List<Member> list(){
+        return memberService.memberList();
+    }
+
 }
