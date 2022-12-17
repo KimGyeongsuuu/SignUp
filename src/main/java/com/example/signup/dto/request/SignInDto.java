@@ -1,7 +1,6 @@
 package com.example.signup.dto.request;
 
 
-import com.example.signup.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class SignInDto {
 
     @NotBlank(message = "id는 필수 입력값입니다.")
     private String loginId;
