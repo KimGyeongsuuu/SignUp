@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Error {
+public enum ErrorCode {
     MEMBER_NOT_FOUND("존재하지 않는 회원입니다.", 404),
     EXIST_MEMBER_ID("이미 존재하는 Id 입니다", 404),
 

@@ -1,45 +1,40 @@
 package com.example.signup.controller;
 
-import com.example.signup.dto.request.SignInDto;
-import com.example.signup.dto.request.SignUpDto;
-import com.example.signup.dto.response.SignUpResponse;
+import com.example.signup.dto.request.MemberSignInRequestDto;
+import com.example.signup.dto.request.MemberSignUpRequestDto;
+import com.example.signup.dto.response.TokenResponseDto;
 import com.example.signup.service.impl.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @RestController
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
 
     private final MemberServiceImpl memberService;
 
-
     @PostMapping("/signup")
-    public SignUpResponse<Object> signup(@Validated @RequestBody SignUpDto signUpDto){
-        memberService.signUp(signUpDto);
-        return SignUpResponse.of(signUpDto.getLoginId(),signUpDto.getPassword(),signUpDto.getName());
+    public Integer signup(@RequestBody @Valid MemberSignUpRequestDto signUpDto){
+       return memberService.signUp(signUpDto);
     }
 
-    @PostMapping("/signin")
-    public void sigin(@Validated @RequestBody SignInDto signInDto){
-        memberService.signin(signInDto);
+    @PostMapping("/login")
+    public TokenResponseDto login(@RequestBody @Valid MemberSignInRequestDto signInDto) {
+        return memberService.login(signInDto);
     }
 
+    //TODO : Access Token 이 만료가 되면 여기로 요청을 보냄
+    @PutMapping("/newAccess")
+    public TokenResponseDto issueAccessToken(HttpServletRequest request) {
+        return memberService.issueAccessToken(request);
+    }
 
-
-//    @PatchMapping("/update/{memberId}")
-//    public void update(@PathVariable Integer memberId, @RequestBody SignUpDto signUpRequest){
-//        memberService.update(memberId,signUpRequest);
-//    }
-//
-//    @GetMapping("/list")
-//    public List<Member> list(){
-//        return memberService.memberList();
-//    }
 
 }

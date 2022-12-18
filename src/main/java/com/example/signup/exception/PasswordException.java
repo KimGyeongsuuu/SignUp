@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class PasswordException extends RuntimeException{
-    private final Error error;
+    private final ErrorCode error;
 
     public PasswordException(String message) {
         super(message);
-        this.error = Error.MISMATCH_MEMBER_PASSWORD;
+        this.error = ErrorCode.MISMATCH_MEMBER_PASSWORD;
     }
 }

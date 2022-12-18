@@ -3,13 +3,15 @@ package com.example.signup.dto.request;
 import com.example.signup.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
-public class SignUpDto {
+@NoArgsConstructor
+public class MemberSignUpRequestDto {
     @NotBlank
     @Size(min = 3,max=10,message = "아이디는 2자 이상 10자 이하로 입력해주세요.")
     private String loginId;
@@ -20,6 +22,7 @@ public class SignUpDto {
 
     @NotBlank(message = "이름을 입력해주세요")
     private String name;
+
     public Member toEntity(){
         return Member.builder()
                 .loginId(loginId)

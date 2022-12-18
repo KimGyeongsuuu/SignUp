@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class MemberNotFoundException extends RuntimeException{
 
-    private final Error error;
+    private final ErrorCode error;
 
     public MemberNotFoundException(String message) {
         super(message);
-        this.error = Error.MEMBER_NOT_FOUND;
+        this.error = ErrorCode.MEMBER_NOT_FOUND;
     }
 }
