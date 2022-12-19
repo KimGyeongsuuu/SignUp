@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class MemberSignInRequestDto {
 
     @NotBlank(message = "id는 필수 입력값입니다.")

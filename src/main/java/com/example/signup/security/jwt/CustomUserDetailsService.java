@@ -18,6 +18,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String loginId) throws MemberNotFoundException {
         return memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new MemberNotFoundException("사용자가 존재하지 않습니다."));
+                .orElseThrow(() -> new MemberNotFoundException("존재하지 않은 Id 입니다"));
     }
 }

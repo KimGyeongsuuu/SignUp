@@ -15,6 +15,7 @@ import java.util.Collection;
 @Getter @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "member")
 public class Member extends BaseTimeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +30,11 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     @Column(name = "name")
     private String name;
+    @Transient
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Transient
     private String refreshToken;
-
 
     public void addUserAuthority() {
         this.role = Role.USER;
@@ -44,9 +46,6 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.refreshToken = refreshToken;
     }
 
-    public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword) {
-        return passwordEncoder.matches(checkPassword, getPassword());
-    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> auth = new ArrayList<>();

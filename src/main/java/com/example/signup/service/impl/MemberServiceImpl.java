@@ -6,7 +6,7 @@ import com.example.signup.dto.response.TokenResponseDto;
 import com.example.signup.entity.Member;
 import com.example.signup.exception.MemberExistException;
 import com.example.signup.exception.MemberNotFoundException;
-import com.example.signup.exception.PasswordException;
+import com.example.signup.exception.PasswordNotMatch;
 import com.example.signup.repository.MemberRepository;
 import com.example.signup.security.jwt.JwtTokenProvider;
 import com.example.signup.service.MemberService;
@@ -42,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
 
         return member.getMemberId();
     }
+
     @Transactional
     @Override
     public TokenResponseDto login(MemberSignInRequestDto signInDto) {
@@ -50,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
         validateMatchedPassword(signInDto.getPassword(), member.getPassword());
 
-        String accessToken = jwtTokenProvider.createAccessToken(member.getName(), member.getRole().name());
+        String accessToken = jwtTokenProvider.createAccessToken(member.getLoginId(), String.valueOf(member.getRole()));
         String refreshToken = jwtTokenProvider.createRefreshToken();
 
         member.updateRefreshToken(refreshToken);
@@ -102,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
 
     private void validateMatchedPassword(String validPassword, String memberPassword) {
         if (!passwordEncoder.matches(validPassword, memberPassword)) {
-            throw new PasswordException("비밀번호가 일치하지 않습니다");
+            throw new PasswordNotMatch("비밀번호가 일치하지 않습니다");
         }
     }
 

@@ -2,6 +2,8 @@ package com.example.signup.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,16 +16,17 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class JwtTokenProvider {
-    private final long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 30; //30분
-
-    private final long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 60 * 24 * 7; //일주일
-
-    public static final String HEADER_ACCESS_TOKEN = "X-ACCESS-TOKEN";
-    public static final String HEADER_REFRESH_TOKEN = "X-REFRESH-TOKEN";
+    @Value("spring.jwt.secret")
     private String secretKey;
+    private long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 30; //30분
+    private long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 60 * 24 * 7; //일주일
 
     private final CustomUserDetailsService customUserDetailsService;
+    public static final String HEADER_ACCESS_TOKEN = "X-ACCESS-TOKEN";
+    public static final String HEADER_REFRESH_TOKEN = "X-REFRESH-TOKEN";
+
 
 
     @PostConstruct
@@ -31,8 +34,8 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
     // AccessToken 생성
-    public String createAccessToken(String email, String role) {
-        Claims claims = Jwts.claims().setSubject(email);
+    public String createAccessToken(String loginId, String role) {
+        Claims claims = Jwts.claims().setSubject(loginId);
         claims.put("role", role);
         Date now = new Date();
         return Jwts.builder()

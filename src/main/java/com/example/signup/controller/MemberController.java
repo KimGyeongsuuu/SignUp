@@ -3,13 +3,14 @@ package com.example.signup.controller;
 import com.example.signup.dto.request.MemberSignInRequestDto;
 import com.example.signup.dto.request.MemberSignUpRequestDto;
 import com.example.signup.dto.response.TokenResponseDto;
+import com.example.signup.entity.Member;
 import com.example.signup.service.impl.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 
 @RestController
@@ -21,12 +22,13 @@ public class MemberController {
     private final MemberServiceImpl memberService;
 
     @PostMapping("/signup")
-    public Integer signup(@RequestBody @Valid MemberSignUpRequestDto signUpDto){
+    public Integer signup(@RequestBody @Validated MemberSignUpRequestDto signUpDto){
        return memberService.signUp(signUpDto);
     }
 
+
     @PostMapping("/login")
-    public TokenResponseDto login(@RequestBody @Valid MemberSignInRequestDto signInDto) {
+    public TokenResponseDto login(@RequestBody @Validated MemberSignInRequestDto signInDto) {
         return memberService.login(signInDto);
     }
 
@@ -35,6 +37,4 @@ public class MemberController {
     public TokenResponseDto issueAccessToken(HttpServletRequest request) {
         return memberService.issueAccessToken(request);
     }
-
-
 }

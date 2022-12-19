@@ -6,6 +6,7 @@ import com.example.signup.dto.response.TokenResponseDto;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 public interface MemberService {
     Integer signUp (MemberSignUpRequestDto requestDto);
     TokenResponseDto login(MemberSignInRequestDto requestDto);
